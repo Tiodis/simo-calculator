@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIMO 80/20 Payment Calculator</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#163041;background:#f2f6f8;font-size:16px}*{box-sizing:border-box}body{margin:0}header{background:#123e53;color:white;padding:36px max(24px,calc((100vw - 1160px)/2))}header p{color:#d2e7ee;margin:10px 0 0;max-width:720px;line-height:1.6}h1{font-size:clamp(26px,4vw,38px);margin:8px 0}.eyebrow{letter-spacing:.14em;font-size:12px;font-weight:750;text-transform:uppercase}main{max-width:1208px;margin:auto;padding:24px;display:grid;grid-template-columns:350px minmax(0,1fr);gap:24px}section,.panel{background:white;border:1px solid #d6e1e6;border-radius:14px;padding:24px;margin-bottom:20px}h2{font-size:20px;margin:0 0 20px}h3{font-size:17px;margin:0 0 12px}p,li{line-height:1.6}.muted,small{color:#536976}small{display:block;line-height:1.5;margin-top:6px}label{display:block;font-size:14px;font-weight:650;margin-top:16px}input{display:block;width:100%;padding:11px 12px;margin-top:7px;border:1px solid #8fa7b4;border-radius:7px;font:inherit;color:#163041;background:white}input:focus{outline:3px solid #9ed8f1;outline-offset:2px}input:invalid{border-color:#ab332d}.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{background:#fff6df;border:1px solid #e0bf69;padding:14px;border-radius:9px;font-size:14px;line-height:1.6;margin:0 0 20px}a{color:#116387}button{font:inherit;font-weight:650;cursor:pointer;padding:11px 16px;border-radius:8px;border:1px solid #91a8b5;background:white;color:#163041}.primary{background:#123e53;color:white;border-color:#123e53}.actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}.balance{display:grid;grid-template-columns:1fr 1fr;gap:16px}.balance div{background:#eef5f8;padding:18px;border-radius:10px}.balance span{display:block;font-size:13px;color:#536976}.balance strong{display:block;font-size:24px;margin-top:8px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:right;padding:15px 10px;border-bottom:1px solid #dde6eb;white-space:nowrap}th:first-child,td:first-child{text-align:left}th{font-size:12px;color:#536976}td:last-child{font-weight:750;background:#f0f7f6;color:#164e49}.details{font-size:14px}.details p{margin:10px 0}#error{color:#89251e;background:#fff0ee;border:1px solid #ce918b;padding:14px;border-radius:8px;margin-bottom:16px}footer{max-width:1208px;margin:0 auto;padding:0 24px 30px;color:#536976;font-size:13px}.pill{display:inline-block;padding:5px 10px;background:#e8f0f3;color:#264e62;border-radius:20px;font-size:12px;font-weight:650;margin-bottom:16px}[hidden]{display:none!important}@media(max-width:850px){main{grid-template-columns:1fr}header{padding:28px 24px}}@media(max-width:450px){main{padding:14px}section,.panel{padding:18px}.balance strong{font-size:20px}}@media print{body{background:white}header{background:white;color:#163041;padding:10px 24px}header p{color:#536976}main{display:block}form,.actions,.note a{display:none}section{break-inside:avoid}.note{background:white}footer{padding:0 24px}}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">Mortgage planning · Prototype</div><h1>SIMO 80/20 calculator</h1><p>Compare initial monthly payments for three first mortgage options paired with a 15-year fixed home equity loan.</p></header>
+<main>
+<form id="calculator">
+<section><h2>Purchase & loan rates</h2><label for="price">Purchase price ($)</label><input id="price" type="number" min="0.01" max="1250000" step="0.01" value="300000" required><small>Fixed split: 80% first mortgage, 20% home equity. No down payment input.</small>
+<label for="equity">15-year home equity rate (%)</label><input id="equity" type="number" min="0" max="100" step="0.001" value="8.35" required>
+<label for="rate55">5/5 ARM starting rate (%)</label><input id="rate55" type="number" min="0" max="100" step="0.001" value="6.500" required>
+<label for="rate71">7/1 ARM starting rate (%)</label><input id="rate71" type="number" min="0" max="100" step="0.001" value="6.625" required>
+<label for="rate101">10/1 ARM starting rate (%)</label><input id="rate101" type="number" min="0" max="100" step="0.001" value="6.750" required><small>Screenshot product: First Time Homebuyer 10/1 ARM. Confirm SIMO eligibility.</small></section>
+<section><h2>Housing expenses</h2><small>Enter estimates. Zero means the expense is excluded.</small>
+<label for="tax">Annual property taxes ($)</label><input id="tax" type="number" min="0" max="1000000" step="0.01" value="0" required>
+<label for="insurance">Annual homeowners insurance ($)</label><input id="insurance" type="number" min="0" max="1000000" step="0.01" value="0" required>
+<label for="flood">Annual flood insurance ($)</label><input id="flood" type="number" min="0" max="1000000" step="0.01" value="0" required>
+<div class="pair"><div><label for="hoa">Monthly HOA ($)</label><input id="hoa" type="number" min="0" max="1000000" step="0.01" value="0" required></div><div><label for="other">Other monthly ($)</label><input id="other" type="number" min="0" max="1000000" step="0.01" value="0" required></div></div><small>Include assessments only once. Do not add CDD separately if already included in property taxes.</small>
+<div class="actions"><button type="submit" class="primary">Calculate</button><button type="reset">Reset example</button></div></section>
+</form>
+<div>
+<div class="note"><strong>Rates are not live.</strong> ARM defaults come from the screenshot supplied October 14, 2026; the home equity default comes from the October 13, 2026 sheet. Verify and update interest rates before use. <a href="https://www.suncoast.com/For-You/Loans-and-Credit-Cards/Mortgages" target="_blank" rel="noopener noreferrer">View Suncoast mortgage rates</a>. Use interest rates, not APR.</div>
+<div id="error" role="alert" hidden></div>
+<div id="results" aria-live="polite" aria-atomic="true">
+<section><span class="pill">80% + 20% financing</span><h2>Loan amounts</h2><div class="balance"><div><span>First mortgage · 30 years</span><strong id="firstBalance"></strong></div><div><span>Home equity · 15 years</span><strong id="secondBalance"></strong></div></div><p class="muted details">Home equity principal & interest: <strong id="equityPayment"></strong> per month.</p></section>
+<section><h2>Initial monthly payment comparison</h2><div class="tablewrap"><table><caption class="muted" style="text-align:left;padding-bottom:12px">All first mortgages amortize over 30 years.</caption><thead><tr><th scope="col">First mortgage</th><th scope="col">Rate</th><th scope="col">First P&I</th><th scope="col">Combined P&I</th><th scope="col">Total housing</th></tr></thead><tbody id="comparison"></tbody></table></div><small>P&I = principal and interest. Combined P&I includes both loans. Total housing adds the expenses entered.</small><p id="expenseSummary" class="details muted"></p><p id="omitted" class="details muted"></p></section>
+<section class="details"><h2>Estimate assumptions</h2><p>The 5/5 rate is initially fixed for 5 years, the 7/1 for 7 years, and the 10/1 for 10 years. First mortgage payments can change after those periods. Future adjustments are not modeled.</p><p>Home equity payments assume full amortization over 180 months at the entered fixed interest rate. First mortgage payments use 360 months.</p><p>No mortgage insurance, closing costs, prepaid expenses, or cash-to-close calculation is included. Financing 100% of the price does not mean zero cash is due at closing.</p><p>The supplied home equity maximum is $250,000. This calculator checks that amount only; it does not establish product availability, credit qualification, property eligibility, CLTV eligibility, or approval.</p><p>Internal prototype for calculation review. Confirm product rules and validate against your approved loan system before operational use.</p><div class="actions"><button type="button" id="print">Print estimate</button></div><small id="calculatedAt"></small></section>
+</div>
+</div>
+</main><footer>Calculations run in this browser. This file does not transmit or save inputs and does not request member information.</footer>
+<script>
+'use strict';
+const products=[{name:'5/5 ARM',id:'rate55'},{name:'7/1 ARM',id:'rate71'},{name:'10/1 ARM',id:'rate101'}];
+const byId=id=>document.getElementById(id);
+const round=value=>Math.round((value+Number.EPSILON)*100)/100;
+const usd=value=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(value);
+function monthlyPayment(principal,annualRate,years){
+ if(![principal,annualRate,years].every(Number.isFinite)||principal<0||annualRate<0||years<=0)throw new Error('Invalid loan values.');
+ const months=years*12,r=annualRate/1200;
+ return r===0?principal/months:principal*r/(-Math.expm1(-months*Math.log1p(r)));
+}
+function calculate(){
+ const form=byId('calculator'),error=byId('error'),results=byId('results');
+ error.hidden=true;
+ if(!form.checkValidity()){
+  results.hidden=true;error.textContent='Enter valid amounts in all fields. Purchase price must be positive and no greater than $1,250,000; rates must be between 0% and 100%. Expenses cannot be negative.';error.hidden=false;return false;
+ }
+ const get=id=>Number(byId(id).value);
+ const price=round(get('price')),first=round(price*.8),second=round(price-first);
+ if(second>250000){results.hidden=true;error.textContent='The 20% portion exceeds the supplied $250,000 home equity maximum.';error.hidden=false;return false;}
+ const equity=round(monthlyPayment(second,get('equity'),15));
+ const expenses=round((get('tax')+get('insurance')+get('flood'))/12+get('hoa')+get('other'));
+ byId('firstBalance').textContent=usd(first);byId('secondBalance').textContent=usd(second);byId('equityPayment').textContent=usd(equity);
+ byId('comparison').replaceChildren();
+ for(const product of products){
+  const rate=get(product.id),payment=round(monthlyPayment(first,rate,30)),combined=round(payment+equity),total=round(combined+expenses);
+  const tr=document.createElement('tr');
+  for(const value of [product.name,rate.toFixed(3)+'%',usd(payment),usd(combined),usd(total)]){const td=document.createElement('td');td.textContent=value;tr.appendChild(td);}
+  byId('comparison').appendChild(tr);
+ }
+ byId('expenseSummary').textContent='Monthly housing expenses added to each option: '+usd(expenses)+'.';
+ const excluded=[['tax','property taxes'],['insurance','homeowners insurance'],['flood','flood insurance'],['hoa','HOA'],['other','other assessments']].filter(([id])=>get(id)===0).map(([,name])=>name);
+ byId('omitted').textContent=excluded.length?'Entered as $0 / excluded: '+excluded.join(', ')+'.':'';
+ byId('calculatedAt').textContent='Calculated '+new Date().toLocaleString()+'. Rates entered manually.';
+ results.hidden=false;return true;
+}
+byId('calculator').addEventListener('submit',event=>{event.preventDefault();calculate();});
+byId('calculator').addEventListener('input',calculate);
+byId('calculator').addEventListener('reset',()=>setTimeout(calculate,0));
+byId('print').addEventListener('click',()=>{if(calculate())window.print();});
+calculate();
+</script>
+</body>
+</html>
